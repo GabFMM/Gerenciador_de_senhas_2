@@ -14,7 +14,7 @@ Abaixo é mostrado, em seções e respectivamente, requisitos para executar, com
 2. Inicie o back-end Spring Boot
 3. Execute a aplicação JavaFX
 
-## Principais funcionalidades:
+## Principais funcionalidades
 * Multiusuário
 * Para desktop
 * Uso de criptografia para armazenamento seguro de dados sensíveis.
@@ -22,7 +22,7 @@ Abaixo é mostrado, em seções e respectivamente, requisitos para executar, com
 * Criação de inúmeras contas, isto é, estruturas que armazenam um título, uma descrição e uma senha, para cada usuário
 * Gerador personalizável e automático de senhas
 
-## Arquitetura:
+## Arquitetura
 O projeto utiliza uma arquitetura em camadas, separando:
 * Front-end (JavaFX)
 * Back-end (Spring Boot – REST API)
