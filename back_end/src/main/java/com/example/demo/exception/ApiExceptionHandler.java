@@ -69,4 +69,17 @@ public class ApiExceptionHandler {
 
         return problemDetail;
     }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ProblemDetail handleUserNotFound(
+            UserNotFoundException ex,
+            HttpServletRequest request){
+
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
+        problemDetail.setTitle("Credenciais inválidas");
+        problemDetail.setDetail(ex.getMessage());
+        problemDetail.setProperty("path", request.getRequestURI());
+
+        return problemDetail;
+    }
 }

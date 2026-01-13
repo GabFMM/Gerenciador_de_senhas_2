@@ -10,7 +10,7 @@ public class SceneManager {
 
     // -- private --
 
-    private Stage stage;
+    private final Stage stage;
 
     private void loadScene(final String fxmlPath){
         try {
@@ -44,4 +44,6 @@ public class SceneManager {
     public void showCreateNewUser(){
         loadScene("/com/example/gerenciador_de_senhas_v2/view/createNewUser.fxml");
     }
+
+    public void showMainMenu(){ loadScene("/com/example/gerenciador_de_senhas_v2/view/mainMenu.fxml");}
 }

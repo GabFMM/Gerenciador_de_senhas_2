@@ -1,10 +1,10 @@
 package com.example.gerenciador_de_senhas_v2.exception;
 
-public class NewUserException extends RuntimeException {
+public class UserNotFoundException extends RuntimeException {
 
     String title;
 
-    public NewUserException(String title, String message) {
+    public UserNotFoundException(String title, String message) {
         super(message);
         this.title = title;
     }

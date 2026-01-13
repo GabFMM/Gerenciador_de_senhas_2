@@ -107,7 +107,7 @@ public class CreateNewUserController implements SceneAware {
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Sucesso");
-        alert.setContentText("Usuário criado com sucesso. Agora você voltará para a tela de login");
+        alert.setContentText("Usuário criado com sucesso. \nAgora você voltará para a tela de login");
         alert.showAndWait();
 
         sceneManager.showLogin();
