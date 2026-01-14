@@ -16,7 +16,7 @@
                   <Button mnemonicParsing="false" prefWidth="115.0" text="Gerador de senhas" />
                   <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" text="Configurações" />
                   <Button mnemonicParsing="false" onAction="#onButtonSairClicked" prefWidth="115.0" text="Sair" />
-                  <Label text="Tempo restante 20:00" />
+                  <Label fx:id="remainingTimeLabel" text="Tempo restante " />
                </children>
             </VBox>
          </children></AnchorPane>
