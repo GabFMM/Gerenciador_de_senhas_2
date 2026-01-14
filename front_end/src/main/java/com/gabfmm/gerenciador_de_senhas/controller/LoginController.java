@@ -8,9 +8,14 @@ import com.gabfmm.gerenciador_de_senhas.service.LoginService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class LoginController implements SceneAware {
 
@@ -23,10 +28,54 @@ public class LoginController implements SceneAware {
     private TextField usernameTextField;
     @FXML
     private TextField passwordTextField;
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private CheckBox showPasswordCheckBox;
 
     // -- Methods --
 
-    private void showError(String header, String content){
+    private void configPasswordFields() {
+
+        // It keeps the passwordFields synchronized
+        passwordField.textProperty().bindBidirectional(passwordTextField.textProperty());
+
+        // It associates the state of the checkbox
+        // with the visibility of the password fields
+        passwordTextField.visibleProperty().bind(showPasswordCheckBox.selectedProperty());
+        passwordField.visibleProperty().bind(showPasswordCheckBox.selectedProperty().not());
+
+        // It avoids empty spaces when hidden
+        passwordTextField.managedProperty().bind(passwordTextField.visibleProperty());
+        passwordField.managedProperty().bind(passwordField.visibleProperty());
+    }
+
+    private void configPasswordCheckBox() {
+
+        ImageView blockedEye = new ImageView(new Image(Objects.requireNonNull(
+                        getClass().getResource("/com/gabfmm/gerenciador_de_senhas/asset/login/blockedEye.png"))
+                .toExternalForm()));
+
+        blockedEye.setFitHeight(showPasswordCheckBox.getPrefHeight());
+        blockedEye.setFitWidth(showPasswordCheckBox.getPrefHeight());
+        blockedEye.setPreserveRatio(true);
+
+        ImageView unblockedEye = new ImageView(new Image(Objects.requireNonNull(
+                        getClass().getResource("/com/gabfmm/gerenciador_de_senhas/asset" + "/login/unblockedEye.png"))
+                .toExternalForm()));
+
+        unblockedEye.setFitHeight(showPasswordCheckBox.getPrefHeight());
+        unblockedEye.setFitWidth(showPasswordCheckBox.getPrefWidth());
+        unblockedEye.setPreserveRatio(true);
+
+        showPasswordCheckBox.setText(null);
+        showPasswordCheckBox.setGraphicTextGap(0);
+        showPasswordCheckBox.setGraphic(blockedEye);
+        showPasswordCheckBox.selectedProperty().addListener(
+                (obs, old, selected) -> showPasswordCheckBox.setGraphic(selected ? unblockedEye : blockedEye));
+    }
+
+    private void showError(String header, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erro");
         alert.setHeaderText(header);
@@ -35,28 +84,34 @@ public class LoginController implements SceneAware {
         alert.showAndWait();
     }
 
-    public LoginController(){
+    public LoginController() {
+
         loginService = new LoginService();
     }
 
+    @FXML
+    public void initialize() {
+
+        configPasswordFields();
+        configPasswordCheckBox();
+    }
+
     @Override
-    public void setSceneManager(SceneManager sceneManager){
+    public void setSceneManager(SceneManager sceneManager) {
         this.sceneManager = sceneManager;
     }
 
-    public void onButtonEntrarClicked(ActionEvent event){
+    public void onButtonEntrarClicked(ActionEvent event) {
 
         UserDTO user = new UserDTO(usernameTextField.getText(), passwordTextField.getText());
 
         try {
             loginService.verifyUser(user);
-        }
-        catch (IOException | InterruptedException ex) {
+        } catch (IOException | InterruptedException ex) {
             ex.printStackTrace();
             showError("Erro imprevisto", "Tente novamente");
             return;
-        }
-        catch (UserNotFoundException ex){
+        } catch (UserNotFoundException ex) {
             showError(ex.getTitle(), ex.getMessage());
             return;
         }
@@ -64,7 +119,7 @@ public class LoginController implements SceneAware {
         sceneManager.showMainMenu();
     }
 
-    public void onButtonCriarNovoUsuarioClicked(ActionEvent event){
+    public void onButtonCriarNovoUsuarioClicked(ActionEvent event) {
         sceneManager.showCreateNewUser();
     }
 }

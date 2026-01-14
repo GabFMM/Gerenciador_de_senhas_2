@@ -1,0 +1,8 @@
+.eyeToggler .box {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.eyeToggler .mark {
+    -fx-background-color: transparent;
+}

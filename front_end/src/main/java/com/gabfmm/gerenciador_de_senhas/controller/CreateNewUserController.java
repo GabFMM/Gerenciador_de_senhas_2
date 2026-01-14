@@ -7,10 +7,7 @@ import com.gabfmm.gerenciador_de_senhas.navigation.SceneManager;
 import com.gabfmm.gerenciador_de_senhas.service.UserService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
@@ -30,9 +27,9 @@ public class CreateNewUserController implements SceneAware {
     @FXML
     private TextField usernameTextField;
     @FXML
-    private TextField passwordTextField;
+    private PasswordField passwordField;
     @FXML
-    private TextField confirmPasswordTextField;
+    private PasswordField confirmPasswordField;
 
     // -- Methods --
 
@@ -59,8 +56,8 @@ public class CreateNewUserController implements SceneAware {
     @FXML
     public void initialize(){
         applyMaxLenght(usernameTextField, 20);
-        applyMaxLenght(passwordTextField, 20);
-        applyMaxLenght(confirmPasswordTextField, 20);
+        applyMaxLenght(passwordField, 20);
+        applyMaxLenght(confirmPasswordField, 20);
     }
 
     @Override
@@ -90,10 +87,10 @@ public class CreateNewUserController implements SceneAware {
 
     public void onConfirmarButtonClicked(ActionEvent event){
 
-        UserDTO userDTO = new UserDTO(usernameTextField.getText(), passwordTextField.getText());
+        UserDTO userDTO = new UserDTO(usernameTextField.getText(), passwordField.getText());
 
         try {
-            userService.saveNewUser(userDTO, confirmPasswordTextField.getText());
+            userService.saveNewUser(userDTO, confirmPasswordField.getText());
         }
         catch (NewUserException ex){
             showError(ex.getTitle(), ex.getMessage());

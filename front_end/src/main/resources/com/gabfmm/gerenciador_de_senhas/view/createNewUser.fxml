@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -13,8 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="205.0" prefWidth="492.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gabfmm.gerenciador_de_senhas.controller.CreateNewUserController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="205.0" prefWidth="492.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gabfmm.gerenciador_de_senhas.controller.CreateNewUserController">
    <children>
       <Pane prefHeight="99.0" prefWidth="373.0">
          <children>
@@ -43,7 +43,7 @@
                   <TextField fx:id="usernameTextField" prefHeight="25.0" prefWidth="245.0" />
                   <ImageView fitHeight="18.0" fitWidth="19.0" onMouseEntered="#onUsernameTooltipMouseEntered" onMouseExited="#onUsernameTooltipMouseExited" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../asset/tool_tip_information.png" />
+                        <Image url="@../asset/createNewUser/tool_tip_information.png" />
                      </image>
                   </ImageView>
                </children>
@@ -53,20 +53,20 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <TextField fx:id="passwordTextField" prefHeight="25.0" prefWidth="245.0" />
+                  <PasswordField fx:id="passwordField" prefWidth="245.0" />
                   <ImageView fitHeight="18.0" fitWidth="19.0" onMouseEntered="#onPasswordTooltipMouseEntered" onMouseExited="#onPasswordTooltipMouseExited" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../asset/tool_tip_information.png" />
+                        <Image url="@../asset/createNewUser/tool_tip_information.png" />
                      </image>
                   </ImageView>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <TextField fx:id="confirmPasswordTextField" prefHeight="25.0" prefWidth="245.0" />
+                  <PasswordField fx:id="confirmPasswordField" prefWidth="245.0" />
                   <ImageView fitHeight="18.0" fitWidth="19.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../asset/tool_tip_information.png" />
+                        <Image url="@../asset/createNewUser/tool_tip_information.png" />
                      </image>
                   </ImageView>
                </children>
