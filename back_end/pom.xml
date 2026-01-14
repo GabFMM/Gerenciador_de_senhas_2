@@ -8,11 +8,11 @@
 		<version>4.0.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>demo</artifactId>
+	<groupId>com.gabfmm</groupId>
+	<artifactId>gerenciador_de_senhas</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
-	<description>Demo project for Spring Boot</description>
+	<name>gerenciador_de_senhas</name>
+	<description>A back-end project in Spring Boot</description>
 	<url/>
 	<licenses>
 		<license/>
