@@ -72,5 +72,5 @@ public class SceneManager {
         loadScene("/com/gabfmm/gerenciador_de_senhas/view/createNewUser.fxml");
     }
 
-    public void showMainMenu(){ loadScene("/com/gabfmm/gerenciador_de_senhas/view/mainMenu.fxml");}
+    public void showMainMenu(){ loadScene("/com/gabfmm/gerenciador_de_senhas/view/mainMenu/mainMenu.fxml");}
 }

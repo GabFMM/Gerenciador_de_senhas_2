@@ -7,7 +7,6 @@ import com.gabfmm.gerenciador_de_senhas.navigation.SceneManager;
 import com.gabfmm.gerenciador_de_senhas.service.LoginService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -17,7 +16,7 @@ import javafx.scene.image.ImageView;
 import java.io.IOException;
 import java.util.Objects;
 
-public class LoginController implements SceneAware {
+public class LoginController extends BaseController implements SceneAware {
 
     // -- Attributes --
 
@@ -75,15 +74,6 @@ public class LoginController implements SceneAware {
                 (obs, old, selected) -> showPasswordCheckBox.setGraphic(selected ? unblockedEye : blockedEye));
     }
 
-    private void showError(String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erro");
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-
-        alert.showAndWait();
-    }
-
     public LoginController() {
 
         loginService = new LoginService();
@@ -109,10 +99,10 @@ public class LoginController implements SceneAware {
             loginService.verifyUser(user);
         } catch (IOException | InterruptedException ex) {
             ex.printStackTrace();
-            showError("Erro imprevisto", "Tente novamente");
+            showErrorAndWait("Erro imprevisto", "Tente novamente");
             return;
         } catch (UserNotFoundException ex) {
-            showError(ex.getTitle(), ex.getMessage());
+            showErrorAndWait(ex.getTitle(), ex.getMessage());
             return;
         }
 

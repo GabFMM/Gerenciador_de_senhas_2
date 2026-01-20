@@ -12,7 +12,7 @@ import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 
-public class CreateNewUserController implements SceneAware {
+public class CreateNewUserController extends BaseController implements SceneAware {
 
     // -- Attributes --
 
@@ -32,15 +32,6 @@ public class CreateNewUserController implements SceneAware {
     private PasswordField confirmPasswordField;
 
     // -- Methods --
-
-    private void showError(String header, String content){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erro");
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-
-        alert.showAndWait();
-    }
 
     private void applyMaxLenght(TextField textField, int size){
         textField.setTextFormatter(new TextFormatter<String>(change -> {
@@ -93,12 +84,12 @@ public class CreateNewUserController implements SceneAware {
             userService.saveNewUser(userDTO, confirmPasswordField.getText());
         }
         catch (NewUserException ex){
-            showError(ex.getTitle(), ex.getMessage());
+            showErrorAndWait(ex.getTitle(), ex.getMessage());
             return;
         }
         catch (IOException | InterruptedException ex) {
             ex.printStackTrace();
-            showError("Erro imprevisto", "Tente novamente");
+            showErrorAndWait("Erro imprevisto", "Tente novamente");
             return;
         }
 

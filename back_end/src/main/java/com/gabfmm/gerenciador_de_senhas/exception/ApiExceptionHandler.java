@@ -1,6 +1,7 @@
 package com.gabfmm.gerenciador_de_senhas.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -24,7 +25,7 @@ public class ApiExceptionHandler {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
 
         problem.setTitle("Erro de validação");
-        problem.setDetail("Um ou mais campos estão inválidos");
+        problem.setDetail("");
         problem.setProperty("path", request.getRequestURI());
 
         Map<String, String> errors = new HashMap<>();
@@ -53,7 +54,6 @@ public class ApiExceptionHandler {
 
         return problemDetail;
     }
-
 
     // -- Custom exceptions --
 
