@@ -28,12 +28,10 @@ O projeto utiliza uma arquitetura em camadas, separando:
 * Back-end (Spring Boot – REST API)
 * Persistência de dados (Spring Data JPA + H2)
 
-A comunicação entre front-end e back-end é feita via requisições HTTP.
-
 ## Justificativa
 Esse gerenciador foi criado com a intenção de melhorar as habilidades na área de desenvolvimento de sistemas.
 
-Ele também é uma continuação de outro repositório semelhante ([clique aqui para ver mais](https://github.com/GabFMM/Gerenciador_de_senhas)), porém esse possui mais aprofundamento em tópicos como camadas de desenvolvimento (front-end e back-end) via protocolos HTTP.
+Ele também é uma continuação de outro repositório semelhante ([clique aqui para ver mais](https://github.com/GabFMM/Gerenciador_de_senhas)), porém esse possui mais aprofundamento em tópicos como camadas de desenvolvimento (front-end e back-end) via REST API.
 
 ## Situação
 Atualmente, o projeto não está finalizado e não é recomendável o uso do mesmo pela falta de segurança nos dados persistidos.
