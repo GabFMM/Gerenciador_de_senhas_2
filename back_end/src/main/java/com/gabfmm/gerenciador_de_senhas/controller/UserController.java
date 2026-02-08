@@ -1,6 +1,6 @@
 package com.gabfmm.gerenciador_de_senhas.controller;
 
-import com.gabfmm.gerenciador_de_senhas.dto.UserDTO;
+import com.gabfmm.gerenciador_de_senhas.dto.*;
 import com.gabfmm.gerenciador_de_senhas.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -18,11 +18,28 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody @Valid UserDTO newUser){
+    public ResponseEntity<Void> create(@RequestBody @Valid NewUserDTO newUser){
 
         // If it throws an exception, the ApiExceptionHandler will act
         userService.saveNewUser(newUser);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping("/me/username")
+    public ResponseEntity<UsernameDTO> getUsername(){
+        return ResponseEntity.ok(userService.getUsername());
+    }
+
+    @PatchMapping("/me")
+    public ResponseEntity<UserUpdateInfoDTO> save(@RequestBody @Valid UserUpdateDTO userUpdateDTO){
+        return ResponseEntity.ok(userService.saveUser(userUpdateDTO));
+    }
+
+    @DeleteMapping("/me")
+    public ResponseEntity<Void> delete(@RequestBody @Valid DeleteUserDTO deleteUserDTO){
+        userService.delete(deleteUserDTO);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

@@ -1,46 +1,36 @@
 package com.gabfmm.gerenciador_de_senhas.service;
 
-import com.gabfmm.gerenciador_de_senhas.dto.ApiErrorDTO;
-import com.gabfmm.gerenciador_de_senhas.dto.UserDTO;
+import com.gabfmm.gerenciador_de_senhas.auth.AuthSession;
+import com.gabfmm.gerenciador_de_senhas.dto.*;
 import com.gabfmm.gerenciador_de_senhas.exception.NewUserException;
 
+import com.gabfmm.gerenciador_de_senhas.exception.UserDeleteException;
+import com.gabfmm.gerenciador_de_senhas.exception.UserNotFoundException;
+import com.gabfmm.gerenciador_de_senhas.exception.UserUpdateException;
 import com.gabfmm.gerenciador_de_senhas.util.HttpStatusCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class UserService {
+public class UserService extends BaseService{
 
     // -- private --
 
-    private void persistNewUser(UserDTO newUser) throws IOException, InterruptedException {
+    private void persistNewUser(NewUserDTO newUser) throws IOException, InterruptedException {
 
-        HttpClient client = HttpClient.newHttpClient();
-
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(newUser);
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/users"))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(json))
-                .build();
-
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = apiClient.post("http://localhost:8080/users", newUser);
 
         HttpStatusCode status = HttpStatusCode.from(response.statusCode());
 
         if(status == HttpStatusCode.CREATED) return;
 
+        ObjectMapper mapper = new ObjectMapper();
         ApiErrorDTO error = mapper.readValue(response.body(), ApiErrorDTO.class);
         throw new NewUserException(error.title(), error.detail());
     }
 
-    private void verifyFieldsNewUser(UserDTO newUser, String confirmPassword){
+    private void verifyFieldsNewUser(NewUserDTO newUser, String confirmPassword){
         if(newUser.name().isEmpty()){
             throw new NewUserException("Erro no campo usuário", "O campo usuário está vazio");
         }
@@ -60,8 +50,52 @@ public class UserService {
 
     // -- public --
 
-    public void saveNewUser(UserDTO newUser, String confirmPassword) throws IOException, InterruptedException {
+    public void saveNewUser(NewUserDTO newUser, String confirmPassword) throws IOException, InterruptedException {
         verifyFieldsNewUser(newUser, confirmPassword);
         persistNewUser(newUser);
+    }
+
+    public UserUpdateInfoDTO saveUser(UserUpdateDTO user) throws IOException, InterruptedException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        HttpResponse<String> response = apiClient.patch("http://localhost:8080/users/me", AuthSession.getToken(), user);
+
+        HttpStatusCode status = HttpStatusCode.from(response.statusCode());
+
+        if(status == HttpStatusCode.OK) {
+            return mapper.readValue(response.body(), UserUpdateInfoDTO.class);
+        }
+
+        ApiErrorDTO error = mapper.readValue(response.body(), ApiErrorDTO.class);
+        throw new UserUpdateException(error.title(), error.detail());
+    }
+
+    public String getUsername() throws IOException, InterruptedException {
+
+        HttpResponse<String> response = apiClient.get("http://localhost:8080/users/me/username", AuthSession.getToken());
+
+        HttpStatusCode status = HttpStatusCode.from(response.statusCode());
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        if(status == HttpStatusCode.OK){
+            UsernameDTO usernameDTO = mapper.readValue(response.body(), UsernameDTO.class);
+            return usernameDTO.username();
+        }
+
+        ApiErrorDTO error = mapper.readValue(response.body(), ApiErrorDTO.class);
+        throw new UserNotFoundException(error.title(), error.detail());
+    }
+
+    public void delete(DeleteUserDTO deleteUserDTO) throws IOException, InterruptedException {
+
+        HttpResponse<String> response = apiClient.delete("http://localhost:8080/users/me", AuthSession.getToken(), deleteUserDTO);
+
+        HttpStatusCode status = HttpStatusCode.from(response.statusCode());
+        if(status == HttpStatusCode.NO_CONTENT) return;
+
+        ObjectMapper mapper = new ObjectMapper();
+        ApiErrorDTO error = mapper.readValue(response.body(), ApiErrorDTO.class);
+        throw new UserDeleteException(error.title(), error.detail());
     }
 }

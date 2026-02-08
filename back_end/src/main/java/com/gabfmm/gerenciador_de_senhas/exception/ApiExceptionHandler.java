@@ -17,6 +17,20 @@ public class ApiExceptionHandler {
 
     // -- Standard exceptions --
 
+    // This is a generic handler, only for fallbacks or unexpected error
+    @ExceptionHandler(RuntimeException.class)
+    public ProblemDetail handleRunTimeException(
+            RuntimeException ex,
+            HttpServletRequest request){
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        problem.setTitle("Erro imprevisto");
+        problem.setDetail("Tente novamente");
+        problem.setProperty("path", request.getRequestURI());
+
+        return problem;
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ProblemDetail handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,

@@ -1,7 +1,9 @@
 package com.gabfmm.gerenciador_de_senhas.model;
 
+import com.gabfmm.gerenciador_de_senhas.security.ApiSecurity;
 import jakarta.persistence.*;
 
+import java.security.SecureRandom;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,6 +23,9 @@ public class UserModel {
     @Column(nullable = false, unique = false)
     private String password;
 
+    @Column(nullable = false, unique = false)
+    private final byte[] salt;
+
     // -- Attributes --
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
@@ -30,6 +35,7 @@ public class UserModel {
 
     public UserModel() {
         accounts = new HashSet<>();
+        salt = ApiSecurity.generateSalt();
     }
 
     public void setName(final String name){
@@ -58,5 +64,9 @@ public class UserModel {
 
     public Set<AccountModel> getAccounts() {
         return accounts;
+    }
+
+    public byte[] getSalt() {
+        return salt;
     }
 }

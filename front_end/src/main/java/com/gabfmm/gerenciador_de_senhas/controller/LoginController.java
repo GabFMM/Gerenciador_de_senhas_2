@@ -1,9 +1,7 @@
 package com.gabfmm.gerenciador_de_senhas.controller;
 
-import com.gabfmm.gerenciador_de_senhas.dto.UserDTO;
+import com.gabfmm.gerenciador_de_senhas.dto.UserLoginDTO;
 import com.gabfmm.gerenciador_de_senhas.exception.UserNotFoundException;
-import com.gabfmm.gerenciador_de_senhas.navigation.SceneAware;
-import com.gabfmm.gerenciador_de_senhas.navigation.SceneManager;
 import com.gabfmm.gerenciador_de_senhas.service.LoginService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,12 +14,11 @@ import javafx.scene.image.ImageView;
 import java.io.IOException;
 import java.util.Objects;
 
-public class LoginController extends BaseController implements SceneAware {
+public class LoginController extends NavigableController {
 
     // -- Attributes --
 
-    SceneManager sceneManager;
-    final LoginService loginService;
+    private final LoginService loginService;
 
     @FXML
     private TextField usernameTextField;
@@ -86,14 +83,9 @@ public class LoginController extends BaseController implements SceneAware {
         configPasswordCheckBox();
     }
 
-    @Override
-    public void setSceneManager(SceneManager sceneManager) {
-        this.sceneManager = sceneManager;
-    }
-
     public void onButtonEntrarClicked(ActionEvent event) {
 
-        UserDTO user = new UserDTO(usernameTextField.getText(), passwordTextField.getText());
+        UserLoginDTO user = new UserLoginDTO(usernameTextField.getText(), passwordTextField.getText());
 
         try {
             loginService.verifyUser(user);

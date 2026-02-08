@@ -1,7 +1,5 @@
 package com.gabfmm.gerenciador_de_senhas.controller;
 
-import com.gabfmm.gerenciador_de_senhas.navigation.SceneAware;
-import com.gabfmm.gerenciador_de_senhas.navigation.SceneManager;
 import com.gabfmm.gerenciador_de_senhas.service.MainMenuService;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -13,15 +11,13 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
-public class MainMenuController implements SceneAware {
+public class MainMenuController extends NavigableController {
 
     // -- Attributes --
 
-    private SceneManager sceneManager;
     final private MainMenuService mainMenuService;
 
     @FXML
@@ -30,6 +26,27 @@ public class MainMenuController implements SceneAware {
     private StackPane stackPane;
 
     // -- Methods --
+
+    private void updateStackPane(String fxmlPath, String cssPath){
+        try {
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(fxmlPath)));
+
+            Parent view = loader.load();
+
+            Object controller = loader.getController();
+            if (controller instanceof NavigableController) {
+                ((NavigableController) controller).setSceneManager(sceneManager);
+            }
+
+            view.getStylesheets().add(Objects.requireNonNull(
+                    getClass().getResource(cssPath)).toExternalForm());
+
+            stackPane.getChildren().setAll(view);
+        }
+        catch (IOException ex){
+            ex.printStackTrace();
+        }
+    }
 
     private void configTimer(){
 
@@ -55,28 +72,21 @@ public class MainMenuController implements SceneAware {
         configTimer();
     }
 
-    @Override
-    public void setSceneManager(SceneManager sceneManager) {
-        this.sceneManager = sceneManager;
-    }
-
     public void onButtonSairClicked(ActionEvent event){
         sceneManager.showLogin();
     }
 
     public void onButtonGeradordeSenhasClicked(ActionEvent event){
-        try {
-            Parent view = FXMLLoader.load(
-                    Objects.requireNonNull(getClass().getResource("/com/gabfmm/gerenciador_de_senhas/view/mainMenu" +
-                            "/passwordGenerator.fxml")));
+        updateStackPane(
+                "/com/gabfmm/gerenciador_de_senhas/view/mainMenu/passwordGenerator.fxml",
+                "/com/gabfmm/gerenciador_de_senhas/style/mainMenu/passwordGenerator.css"
+        );
+    }
 
-            view.getStylesheets().add(Objects.requireNonNull(
-                    getClass().getResource("/com/gabfmm/gerenciador_de_senhas/style/mainMenu/passwordGenerator.css")).toExternalForm());
-
-            stackPane.getChildren().addAll(view);
-        }
-        catch (IOException ex){
-            ex.printStackTrace();
-        }
+    public void onButtonConfiguracoesClicked(ActionEvent event){
+        updateStackPane(
+                "/com/gabfmm/gerenciador_de_senhas/view/mainMenu/configuration.fxml",
+                "/com/gabfmm/gerenciador_de_senhas/style/mainMenu/configuration.css"
+        );
     }
 }

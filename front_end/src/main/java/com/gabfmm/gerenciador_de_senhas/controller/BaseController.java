@@ -3,6 +3,7 @@ package com.gabfmm.gerenciador_de_senhas.controller;
 import javafx.scene.control.Alert;
 
 public abstract class BaseController {
+
     protected void showErrorAndWait(String header, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erro");
@@ -15,6 +16,15 @@ public abstract class BaseController {
     protected void showError(String header, String content){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erro");
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+
+        alert.show();
+    }
+
+    protected void showInfo(String header, String content){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Info");
         alert.setHeaderText(header);
         alert.setContentText(content);
 

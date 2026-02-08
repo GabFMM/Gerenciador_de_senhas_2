@@ -1,6 +1,7 @@
 package com.gabfmm.gerenciador_de_senhas.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gabfmm.gerenciador_de_senhas.auth.AuthSession;
 import com.gabfmm.gerenciador_de_senhas.dto.ApiErrorDTO;
 import com.gabfmm.gerenciador_de_senhas.dto.PasswordGenerationRequestDTO;
 import com.gabfmm.gerenciador_de_senhas.dto.PasswordGenerationResponseDTO;
@@ -13,7 +14,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class PasswordGeneratorService {
+public class PasswordGeneratorService extends BaseService{
 
     // -- private --
 
@@ -40,20 +41,11 @@ public class PasswordGeneratorService {
         // this can throw an exception
         verify(passwordGenerationRequestDTO);
 
-        HttpClient client = HttpClient.newHttpClient();
-
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(passwordGenerationRequestDTO);
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/passwords"))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(json))
-                .build();
-
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = apiClient.post("http://localhost:8080/passwords", AuthSession.getToken(), passwordGenerationRequestDTO);
 
         HttpStatusCode statusCode = HttpStatusCode.from(response.statusCode());
+
+        ObjectMapper mapper = new ObjectMapper();
 
         if(statusCode == HttpStatusCode.OK){
             PasswordGenerationResponseDTO passwordResponse = mapper.readValue(response.body(),
@@ -61,8 +53,6 @@ public class PasswordGeneratorService {
 
             return passwordResponse.password();
         }
-
-        System.out.println(response.body());
 
         ApiErrorDTO apiErrorDTO = mapper.readValue(response.body(), ApiErrorDTO.class);
         throw new PasswordGenerationException(apiErrorDTO.title(), apiErrorDTO.detail());

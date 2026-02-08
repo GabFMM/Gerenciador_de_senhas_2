@@ -1,5 +1,6 @@
 package com.gabfmm.gerenciador_de_senhas.navigation;
 
+import com.gabfmm.gerenciador_de_senhas.controller.NavigableController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -20,8 +21,8 @@ public class SceneManager {
 
             // injeta o SceneManager no controller
             Object controller = loader.getController();
-            if (controller instanceof SceneAware) {
-                ((SceneAware) controller).setSceneManager(this);
+            if (controller instanceof NavigableController) {
+                ((NavigableController) controller).setSceneManager(this);
             }
 
             stage.setScene(scene);
@@ -43,8 +44,8 @@ public class SceneManager {
 
             // injeta o SceneManager no controller
             Object controller = loader.getController();
-            if (controller instanceof SceneAware) {
-                ((SceneAware) controller).setSceneManager(this);
+            if (controller instanceof NavigableController) {
+                ((NavigableController) controller).setSceneManager(this);
             }
 
             stage.setScene(scene);
