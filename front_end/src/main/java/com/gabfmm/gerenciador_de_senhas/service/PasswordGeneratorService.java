@@ -2,16 +2,13 @@ package com.gabfmm.gerenciador_de_senhas.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gabfmm.gerenciador_de_senhas.auth.AuthSession;
-import com.gabfmm.gerenciador_de_senhas.dto.ApiErrorDTO;
-import com.gabfmm.gerenciador_de_senhas.dto.PasswordGenerationRequestDTO;
-import com.gabfmm.gerenciador_de_senhas.dto.PasswordGenerationResponseDTO;
+import com.gabfmm.gerenciador_de_senhas.dto.error.ApiErrorDTO;
+import com.gabfmm.gerenciador_de_senhas.dto.password.PasswordGenerationRequestDTO;
+import com.gabfmm.gerenciador_de_senhas.dto.password.PasswordGenerationResponseDTO;
 import com.gabfmm.gerenciador_de_senhas.exception.PasswordGenerationException;
 import com.gabfmm.gerenciador_de_senhas.util.HttpStatusCode;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class PasswordGeneratorService extends BaseService{

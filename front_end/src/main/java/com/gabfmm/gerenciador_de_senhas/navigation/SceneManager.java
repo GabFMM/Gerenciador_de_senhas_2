@@ -1,6 +1,6 @@
 package com.gabfmm.gerenciador_de_senhas.navigation;
 
-import com.gabfmm.gerenciador_de_senhas.controller.NavigableController;
+import com.gabfmm.gerenciador_de_senhas.controller.base.NavigableController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -64,14 +64,14 @@ public class SceneManager {
 
     public void showLogin(){
         loadScene(
-                "/com/gabfmm/gerenciador_de_senhas/view/login.fxml",
+                "/com/gabfmm/gerenciador_de_senhas/view/login/login.fxml",
                 "/com/gabfmm/gerenciador_de_senhas/style/login.css"
         );
     }
 
     public void showCreateNewUser(){
-        loadScene("/com/gabfmm/gerenciador_de_senhas/view/createNewUser.fxml");
+        loadScene("/com/gabfmm/gerenciador_de_senhas/view/login/register.fxml");
     }
 
-    public void showMainMenu(){ loadScene("/com/gabfmm/gerenciador_de_senhas/view/mainMenu/mainMenu.fxml");}
+    public void showMainMenu(){ loadScene("/com/gabfmm/gerenciador_de_senhas/view/menu/menu.fxml");}
 }

@@ -1,7 +1,7 @@
 package com.gabfmm.gerenciador_de_senhas.service;
 
 import com.gabfmm.gerenciador_de_senhas.auth.SessionContext;
-import com.gabfmm.gerenciador_de_senhas.dto.*;
+import com.gabfmm.gerenciador_de_senhas.dto.user.*;
 import com.gabfmm.gerenciador_de_senhas.exception.UserNotFoundException;
 import com.gabfmm.gerenciador_de_senhas.exception.UsernameAlreadyExistsException;
 import com.gabfmm.gerenciador_de_senhas.model.UserModel;

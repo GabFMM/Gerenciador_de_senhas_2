@@ -1,8 +1,7 @@
 package com.gabfmm.gerenciador_de_senhas.service;
 
-import com.gabfmm.gerenciador_de_senhas.dto.TokenDTO;
-import com.gabfmm.gerenciador_de_senhas.dto.NewUserDTO;
-import com.gabfmm.gerenciador_de_senhas.dto.UserLoginDTO;
+import com.gabfmm.gerenciador_de_senhas.dto.token.TokenDTO;
+import com.gabfmm.gerenciador_de_senhas.dto.user.UserLoginDTO;
 import com.gabfmm.gerenciador_de_senhas.exception.UserNotFoundException;
 import com.gabfmm.gerenciador_de_senhas.repository.UserRepository;
 import org.springframework.stereotype.Service;

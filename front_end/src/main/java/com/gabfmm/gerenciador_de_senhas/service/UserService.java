@@ -1,7 +1,8 @@
 package com.gabfmm.gerenciador_de_senhas.service;
 
 import com.gabfmm.gerenciador_de_senhas.auth.AuthSession;
-import com.gabfmm.gerenciador_de_senhas.dto.*;
+import com.gabfmm.gerenciador_de_senhas.dto.error.ApiErrorDTO;
+import com.gabfmm.gerenciador_de_senhas.dto.user.*;
 import com.gabfmm.gerenciador_de_senhas.exception.NewUserException;
 
 import com.gabfmm.gerenciador_de_senhas.exception.UserDeleteException;
@@ -58,7 +59,7 @@ public class UserService extends BaseService{
     public UserUpdateInfoDTO saveUser(UserUpdateDTO user) throws IOException, InterruptedException {
 
         ObjectMapper mapper = new ObjectMapper();
-        HttpResponse<String> response = apiClient.patch("http://localhost:8080/users/me", AuthSession.getToken(), user);
+        HttpResponse<String> response = apiClient.put("http://localhost:8080/users/me", AuthSession.getToken(), user);
 
         HttpStatusCode status = HttpStatusCode.from(response.statusCode());
 
@@ -72,7 +73,7 @@ public class UserService extends BaseService{
 
     public String getUsername() throws IOException, InterruptedException {
 
-        HttpResponse<String> response = apiClient.get("http://localhost:8080/users/me/username", AuthSession.getToken());
+        HttpResponse<String> response = apiClient.get("http://localhost:8080/users/me/username", "", AuthSession.getToken());
 
         HttpStatusCode status = HttpStatusCode.from(response.statusCode());
 

@@ -89,8 +89,21 @@ public class ApiExceptionHandler {
             UserNotFoundException ex,
             HttpServletRequest request){
 
-        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
-        problemDetail.setTitle("Credenciais inválidas");
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+        problemDetail.setTitle("Usuário não encontrado");
+        problemDetail.setDetail(ex.getMessage());
+        problemDetail.setProperty("path", request.getRequestURI());
+
+        return problemDetail;
+    }
+
+    @ExceptionHandler(AccountNotFoundException.class)
+    public ProblemDetail handleAccountNotFound(
+            AccountNotFoundException ex,
+            HttpServletRequest request){
+
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+        problemDetail.setTitle("Conta não encontrada");
         problemDetail.setDetail(ex.getMessage());
         problemDetail.setProperty("path", request.getRequestURI());
 

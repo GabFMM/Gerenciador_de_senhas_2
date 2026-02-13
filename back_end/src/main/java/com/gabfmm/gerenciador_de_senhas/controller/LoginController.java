@@ -1,8 +1,7 @@
 package com.gabfmm.gerenciador_de_senhas.controller;
 
-import com.gabfmm.gerenciador_de_senhas.dto.TokenDTO;
-import com.gabfmm.gerenciador_de_senhas.dto.NewUserDTO;
-import com.gabfmm.gerenciador_de_senhas.dto.UserLoginDTO;
+import com.gabfmm.gerenciador_de_senhas.dto.token.TokenDTO;
+import com.gabfmm.gerenciador_de_senhas.dto.user.UserLoginDTO;
 import com.gabfmm.gerenciador_de_senhas.service.LoginService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

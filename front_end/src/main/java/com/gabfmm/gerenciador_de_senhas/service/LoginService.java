@@ -1,9 +1,9 @@
 package com.gabfmm.gerenciador_de_senhas.service;
 
 import com.gabfmm.gerenciador_de_senhas.auth.AuthSession;
-import com.gabfmm.gerenciador_de_senhas.dto.ApiErrorDTO;
-import com.gabfmm.gerenciador_de_senhas.dto.TokenDTO;
-import com.gabfmm.gerenciador_de_senhas.dto.UserLoginDTO;
+import com.gabfmm.gerenciador_de_senhas.dto.error.ApiErrorDTO;
+import com.gabfmm.gerenciador_de_senhas.dto.auth.TokenDTO;
+import com.gabfmm.gerenciador_de_senhas.dto.user.UserLoginDTO;
 import com.gabfmm.gerenciador_de_senhas.exception.UserNotFoundException;
 import com.gabfmm.gerenciador_de_senhas.util.HttpStatusCode;
 import com.fasterxml.jackson.databind.ObjectMapper;

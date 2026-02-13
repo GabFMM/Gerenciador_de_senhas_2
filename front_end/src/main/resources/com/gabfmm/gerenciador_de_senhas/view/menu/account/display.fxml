@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="340.0" prefWidth="347.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gabfmm.gerenciador_de_senhas.controller.menu.account.DisplayAccountController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="31.0" prefWidth="600.0" spacing="30.0">
+         <children>
+            <Label text="Título:" />
+            <TextField fx:id="searchTitleTextField" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="25.0" top="25.0" />
+         </VBox.margin>
+      </HBox>
+      <StackPane prefHeight="21.0" prefWidth="600.0" styleClass="resultHeader">
+         <children>
+            <Label alignment="TOP_CENTER" text="Resultados:" />
+         </children>
+      </StackPane>
+      <ScrollPane hbarPolicy="NEVER" pannable="true" prefHeight="238.0" prefWidth="347.0" style="-fx-background-color: transparent;">
+         <content>
+            <VBox fx:id="displayAccountsVBox" alignment="TOP_CENTER" prefHeight="232.0" prefWidth="343.0" />
+         </content>
+      </ScrollPane>
+   </children>
+</VBox>

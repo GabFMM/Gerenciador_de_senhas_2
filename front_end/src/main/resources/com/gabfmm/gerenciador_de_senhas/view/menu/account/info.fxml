@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane alignment="CENTER" prefHeight="324.0" prefWidth="436.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gabfmm.gerenciador_de_senhas.controller.menu.account.AccountInfoController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="181.3333740234375" minWidth="10.0" prefWidth="128.0" />
+      <ColumnConstraints hgrow="NEVER" maxWidth="272.6666259765625" minWidth="10.0" prefWidth="243.99999999999997" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="124.0" minHeight="10.0" prefHeight="90.0" vgrow="SOMETIMES" />
+      <RowConstraints fillHeight="false" maxHeight="165.99999364217123" minHeight="10.0" prefHeight="90.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="195.99997456868493" minHeight="10.0" prefHeight="90.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="195.99997456868493" minHeight="10.0" prefHeight="105.000010172526" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <Label alignment="CENTER" text="Título:" GridPane.halignment="CENTER" />
+      <Label alignment="TOP_CENTER" text="Descrição:" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+      <Label text="Senha:" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+      <TextField fx:id="titleTextField" editable="false" GridPane.columnIndex="1" />
+      <TextArea fx:id="descriptionTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <PasswordField fx:id="passwordField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <Button fx:id="editButton" mnemonicParsing="false" onAction="#onEditButtonClicked" text="Editar" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+      <Button fx:id="removeButton" mnemonicParsing="false" onAction="#onRemoveButtonClicked" text="Remover" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+   </children>
+   <padding>
+      <Insets bottom="50.0" right="40.0" top="50.0" />
+   </padding>
+</GridPane>

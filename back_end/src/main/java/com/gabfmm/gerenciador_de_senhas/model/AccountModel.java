@@ -3,7 +3,15 @@ package com.gabfmm.gerenciador_de_senhas.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Accounts")
+@Table(
+        name = "Accounts",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uq_title_user_id",
+                        columnNames = {"title", "user_id"}
+                )
+        }
+)
 public class AccountModel {
 
     // -- Fields --
@@ -12,7 +20,7 @@ public class AccountModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = false)
     private String title;
 
     @Column(nullable = true, unique = false)

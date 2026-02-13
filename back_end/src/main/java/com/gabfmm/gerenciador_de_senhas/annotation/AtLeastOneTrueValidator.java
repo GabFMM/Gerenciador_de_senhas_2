@@ -1,6 +1,6 @@
 package com.gabfmm.gerenciador_de_senhas.annotation;
 
-import com.gabfmm.gerenciador_de_senhas.dto.PasswordGenerationRequestDTO;
+import com.gabfmm.gerenciador_de_senhas.dto.password.PasswordGenerationRequestDTO;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

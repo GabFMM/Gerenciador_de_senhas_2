@@ -1,7 +1,7 @@
 package com.gabfmm.gerenciador_de_senhas.service;
 
-import com.gabfmm.gerenciador_de_senhas.dto.PasswordGenerationRequestDTO;
-import com.gabfmm.gerenciador_de_senhas.dto.PasswordGenerationResponseDTO;
+import com.gabfmm.gerenciador_de_senhas.dto.password.PasswordGenerationRequestDTO;
+import com.gabfmm.gerenciador_de_senhas.dto.password.PasswordGenerationResponseDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
