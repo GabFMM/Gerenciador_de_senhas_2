@@ -35,6 +35,6 @@ Esse gerenciador foi criado com a intenção de melhorar as habilidades na área
 Ele também é uma continuação de outro repositório semelhante ([clique aqui para ver mais](https://github.com/GabFMM/Gerenciador_de_senhas)), porém esse possui mais aprofundamento em tópicos como camadas de desenvolvimento (front-end e back-end) via REST API.
 
 ## Situação
-Atualmente, o projeto não está finalizado e não é recomendável o uso do mesmo pela falta de segurança nos dados persistidos.
+Atualmente, o projeto é seguro e funcional, porém com alguns bugs visuais.
 
 Para saber quais serão os próximos passos a serem realizados, vá à aba Issues do repositório ([ou clique aqui](https://github.com/GabFMM/Gerenciador_de_senhas_2/issues)).
