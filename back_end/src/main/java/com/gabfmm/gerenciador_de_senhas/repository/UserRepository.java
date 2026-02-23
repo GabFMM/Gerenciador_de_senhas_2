@@ -13,34 +13,38 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
 
     // -- EXISTS --
 
-    boolean existsByName(String name);
-
-    boolean existsByNameAndPassword(String name, String password);
-
-    boolean existsByIdAndPassword(Long id, String password);
+    boolean existsByNameHash(String name);
 
     // -- FIND --
 
-    @Query("select id from UserModel where name = :name")
-    Optional<Long> findIdByName(@Param("name") String name);
+    @Query("select id from UserModel where nameHash = :nameHash")
+    Optional<Long> findIdByNameHash(@Param("nameHash") String name);
 
-    @Query("select name from UserModel where id = :id")
-    Optional<String> findNameById(@Param("id") Long id);
+    @Query("select nameEncrypted from UserModel where id = :id")
+    Optional<String> findNameEncryptedById(@Param("id") Long id);
 
-    @Query("select password from UserModel where id = :id")
-    Optional<String> findPasswordById(@Param("id") Long id);
+    @Query("select passwordHash from UserModel where id = :id")
+    Optional<String> findPasswordHashById(@Param("id") Long id);
+
+    @Query("select passwordHash from UserModel where nameHash = :nameHash")
+    Optional<String> findPasswordHashByNameHash(@Param("nameHash") String name);
 
     // -- UPDATE --
 
     @Transactional
     @Modifying
-    @Query("update UserModel u set u.name = ?1 where u.id = ?2")
-    void updateNameById(String name, Long id);
+    @Query("update UserModel u set u.nameEncrypted = ?1 where u.id = ?2")
+    void updateNameEncryptedById(String name, Long id);
 
     @Transactional
     @Modifying
-    @Query("update UserModel u set u.password = ?1 where u.id = ?2")
-    void updatePasswordById(String password, Long id);
+    @Query("update UserModel u set u.nameHash = ?1 where u.id = ?2")
+    void updateNameHashById(String name, Long id);
+
+    @Transactional
+    @Modifying
+    @Query("update UserModel u set u.passwordHash = ?1 where u.id = ?2")
+    void updatePasswordHashById(String passwordHash, Long id);
 
     // -- DELETE --
 

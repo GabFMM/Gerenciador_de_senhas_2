@@ -15,11 +15,11 @@ public class EditAccountController extends AccountSearchFormController {
     public EditAccountController(){}
 
     @Override
-    public void updateInfosEdited(String title){
-        // do load because I don't know the previous title
-        loadTitleComboBox();
+    public void updateInfosEdited(String oldTitle, String newTitle){
+        int index = titleComboBox.getItems().indexOf(oldTitle);
+        titleComboBox.getItems().set(index, newTitle);
 
-        titleComboBox.getSelectionModel().select(title);
+        titleComboBox.getSelectionModel().select(newTitle);
     }
 
     public void onSaveButtonClicked(ActionEvent event){

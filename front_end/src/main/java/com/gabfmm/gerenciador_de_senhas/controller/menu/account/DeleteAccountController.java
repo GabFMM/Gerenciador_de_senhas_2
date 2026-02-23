@@ -50,13 +50,16 @@ public class DeleteAccountController extends AccountSearchFormController {
     }
 
     @Override
-    public void updateInfosDeleted(String title){
-        removeTitleComboBox(title);
+    public void updateInfosDeleted(String oldTitle, String newTitle){
+        removeTitleComboBox(oldTitle);
 
         clear();
     }
 
     public void onRemoveButtonClicked(ActionEvent actionEvent){
+        // Avoid prompt text
+        if(titleComboBox.getValue() == null) return;
+
         showConfirmButton();
     }
 

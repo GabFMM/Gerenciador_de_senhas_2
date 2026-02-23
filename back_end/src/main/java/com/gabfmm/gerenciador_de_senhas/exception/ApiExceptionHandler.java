@@ -25,7 +25,7 @@ public class ApiExceptionHandler {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 
         problem.setTitle("Erro imprevisto");
-        problem.setDetail("Tente novamente");
+        problem.setDetail("Segue detalhes:" + ex.getMessage());
         problem.setProperty("path", request.getRequestURI());
 
         return problem;

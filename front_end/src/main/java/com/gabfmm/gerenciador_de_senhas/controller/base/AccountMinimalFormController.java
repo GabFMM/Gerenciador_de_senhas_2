@@ -48,24 +48,25 @@ public abstract class AccountMinimalFormController extends BaseController {
         Parameters:
         "title" refers to the affected account
     */
-    public void updateInfos(String title, UpdateType type){
-        if(!title.equals(titleTextField.getText())) return;
+    public void updateInfos(String oldTitle, String newTitle, UpdateType type){
+        if(!oldTitle.equals(originalAccountTitle)) return;
 
         switch (type){
             case EDITED:
-                updateInfosEdited(title);
+                updateInfosEdited(oldTitle, newTitle);
                 break;
 
             case DELETED:
-                updateInfosDeleted(title);
+                updateInfosDeleted(oldTitle, newTitle);
                 break;
         }
     }
 
-    public void updateInfosEdited(String title){
+    public void updateInfosEdited(String oldTitle, String newTitle){
         try {
-            AccountDTO account = accountService.getAccount(title);
+            AccountDTO account = accountService.getAccount(newTitle);
 
+            originalAccountTitle = account.title();
             titleTextField.setText(account.title());
             descriptionTextArea.setText(account.description());
             passwordField.setText(account.password());
@@ -84,13 +85,14 @@ public abstract class AccountMinimalFormController extends BaseController {
         }
     }
 
-    public void updateInfosDeleted(String title){
+    public void updateInfosDeleted(String oldTitle, String newTitle){
+        originalAccountTitle = "";
         titleTextField.clear();
         descriptionTextArea.clear();
         passwordField.clear();
 
         showInfo("O conteúdo mostrado está desatualizado",
-                "A conta " + title + " não existe mais. Por favor feche essa aba.");
+                "A conta " + oldTitle + " não existe mais. Por favor feche essa aba.");
     }
 
     public String getAccountTitle(){

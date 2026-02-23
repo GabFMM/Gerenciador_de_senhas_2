@@ -1,16 +1,16 @@
 package com.gabfmm.gerenciador_de_senhas.service;
 
-import com.gabfmm.gerenciador_de_senhas.auth.SessionContext;
 import com.gabfmm.gerenciador_de_senhas.dto.user.*;
 import com.gabfmm.gerenciador_de_senhas.exception.UserNotFoundException;
 import com.gabfmm.gerenciador_de_senhas.exception.UsernameAlreadyExistsException;
 import com.gabfmm.gerenciador_de_senhas.model.UserModel;
 import com.gabfmm.gerenciador_de_senhas.repository.UserRepository;
+import com.gabfmm.gerenciador_de_senhas.util.SecurityUtils;
 import jakarta.transaction.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -18,20 +18,20 @@ public class UserService {
 
     // -- Attributes --
 
-    private final SessionContext sessionContext;
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
     // -- Methods --
 
     private void verifyNewUser(NewUserDTO newUser){
         // name does not exist
-        if(userRepository.existsByName(newUser.name()))
+        if(userRepository.existsByNameHash(newUser.name()))
             throw new UsernameAlreadyExistsException("Nome de usuário já existe");
     }
 
-    public UserService(SessionContext sessionContext,
+    public UserService(PasswordEncoder passwordEncoder,
                        UserRepository userRepository){
-        this.sessionContext = sessionContext;
+        this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
     }
 
@@ -40,11 +40,10 @@ public class UserService {
         verifyNewUser(newUser);
 
         UserModel user = new UserModel();
-        user.setName(newUser.name());
-        user.setPassword(newUser.password());
+        user.setNameEncrypted(newUser.name());
+        user.setNameHash(newUser.name());
+        user.setPasswordHash(passwordEncoder.encode(newUser.password()));
 
-        // if it throws DataIntegrityViolationException
-        // the ApiExceptionHandler will handle this
         userRepository.save(user);
     }
 
@@ -53,21 +52,23 @@ public class UserService {
         ArrayList<String> infos = new ArrayList<>();
 
         if(!userUpdateDTO.name().isBlank()){
-            userRepository.updateNameById(userUpdateDTO.name(), sessionContext.getUserId());
+            userRepository.updateNameEncryptedById(userUpdateDTO.name(), SecurityUtils.getUserId());
+            userRepository.updateNameHashById(userUpdateDTO.name(), SecurityUtils.getUserId());
+
             infos.add("Nome de usuário atualizado");
         }
         else{
             infos.add("Nome de usuário não atualizado");
         }
 
-        Optional<String> currentPassword = userRepository.findPasswordById(sessionContext.getUserId());
+        Optional<String> currentPasswordEncoded = userRepository.findPasswordHashById(SecurityUtils.getUserId());
         if(
-                currentPassword.isPresent() &&
-                Objects.equals(userUpdateDTO.currentPasswordAttempt(), currentPassword.get()) &&
+                currentPasswordEncoded.isPresent() &&
+                passwordEncoder.matches(userUpdateDTO.currentPasswordAttempt(), currentPasswordEncoded.get()) &&
                 userUpdateDTO.newPassword().length() >= 8 && userUpdateDTO.newPassword().length() <= 20 &&
                 userUpdateDTO.newPassword().equals(userUpdateDTO.confirmPassword())
         ){
-            userRepository.updatePasswordById(userUpdateDTO.newPassword(), sessionContext.getUserId());
+            userRepository.updatePasswordHashById(passwordEncoder.encode(userUpdateDTO.newPassword()), SecurityUtils.getUserId());
             infos.add("Senha atualizada");
         }
         else{
@@ -78,7 +79,7 @@ public class UserService {
     }
 
     public UsernameDTO getUsername(){
-        Optional<String> username = userRepository.findNameById(sessionContext.getUserId());
+        Optional<String> username = userRepository.findNameEncryptedById(SecurityUtils.getUserId());
 
         if(username.isPresent())
             return new UsernameDTO(username.get());
@@ -88,9 +89,11 @@ public class UserService {
 
     @Transactional
     public void delete(DeleteUserDTO deleteUserDTO) {
-        if(!userRepository.existsByIdAndPassword(sessionContext.getUserId(), deleteUserDTO.password()))
+        Optional<String> passwordEncoded = userRepository.findPasswordHashById(SecurityUtils.getUserId());
+        if(passwordEncoded.isPresent() && passwordEncoder.matches(deleteUserDTO.password(), passwordEncoded.get()))
+            userRepository.deleteById(SecurityUtils.getUserId());
+        else
             throw new UserNotFoundException("Usuário(a) não encontrado(a)");
 
-        userRepository.deleteById(sessionContext.getUserId());
     }
 }

@@ -1,9 +1,9 @@
 package com.gabfmm.gerenciador_de_senhas.model;
 
-import com.gabfmm.gerenciador_de_senhas.security.ApiSecurity;
+import com.gabfmm.gerenciador_de_senhas.converter.CryptographyConverter;
+import com.gabfmm.gerenciador_de_senhas.converter.HashConverter;
 import jakarta.persistence.*;
 
-import java.security.SecureRandom;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,14 +17,16 @@ public class UserModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String name;
+    @Column(nullable = false, length = 512)
+    @Convert(converter = CryptographyConverter.class)
+    private String nameEncrypted;
 
-    @Column(nullable = false, unique = false)
-    private String password;
+    @Column(nullable = false, unique = true, length = 100)
+    @Convert(converter = HashConverter.class)
+    private String nameHash;
 
-    @Column(nullable = false, unique = false)
-    private final byte[] salt;
+    @Column(nullable = false, length = 100)
+    private String passwordHash;
 
     // -- Attributes --
 
@@ -35,38 +37,41 @@ public class UserModel {
 
     public UserModel() {
         accounts = new HashSet<>();
-        salt = ApiSecurity.generateSalt();
     }
 
-    public void setName(final String name){
-        this.name = name;
+    public void setNameEncrypted(String nameEncrypted) {
+        this.nameEncrypted = nameEncrypted;
     }
 
-    public void setPassword(final String password){
-        this.password = password;
+    public void setNameHash(final String nameHash){
+        this.nameHash = nameHash;
+    }
+
+    public void setPasswordHash(final String passwordHash){
+        this.passwordHash = passwordHash;
     }
 
     public void setAccounts(final Set<AccountModel> accounts) {
         this.accounts = accounts;
     }
 
-    Long getId(){
+    public Long getId(){
         return id;
     }
 
-    String getName(){
-        return name;
+    public String getNameEncrypted() {
+        return nameEncrypted;
     }
 
-    String getPassword(){
-        return password;
+    public String getNameHash(){
+        return nameHash;
+    }
+
+    public String getPasswordHash(){
+        return passwordHash;
     }
 
     public Set<AccountModel> getAccounts() {
         return accounts;
-    }
-
-    public byte[] getSalt() {
-        return salt;
     }
 }

@@ -11,6 +11,7 @@ Abaixo é mostrado, em seções e respectivamente, requisitos para executar, com
 
 ## Como executar
 1. Clone o repositório
+2. Crie uma variável de ambiente com o nome SECURITY_CRYPTO_KEY. Ela deve ter 256 bits (32 bytes) de tamanho no formato hexadecimal.
 2. Inicie o back-end Spring Boot
 3. Execute a aplicação JavaFX
 

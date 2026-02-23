@@ -26,7 +26,7 @@ public class AddAccountController extends AccountMinimalFormController {
     public AddAccountController(){ }
 
     @Override
-    public void updateInfos(String title, UpdateType type){
+    public void updateInfos(String oldTitle, String newTitle, UpdateType type){
         // it does nothing,
         // because I don't wanna update the infos for this controller
     }

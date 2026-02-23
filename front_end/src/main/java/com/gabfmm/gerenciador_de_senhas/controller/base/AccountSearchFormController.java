@@ -65,36 +65,37 @@ public abstract class AccountSearchFormController extends AccountMinimalFormCont
     }
 
     @Override
-    public void updateInfos(String title, UpdateType type){
+    public void updateInfos(String oldTitle, String newTitle, UpdateType type){
         switch (type){
             case CREATED:
-                updateInfosCreated(title);
+                updateInfosCreated(oldTitle, newTitle);
                 break;
 
             case EDITED:
-                updateInfosEdited(title);
+                updateInfosEdited(oldTitle, newTitle);
                 break;
 
             case DELETED:
-                updateInfosDeleted(title);
+                updateInfosDeleted(oldTitle, newTitle);
                 break;
         }
     }
 
-    public void updateInfosCreated(String title){
-        addTitleComboBox(title);
+    public void updateInfosCreated(String oldTitle, String newTitle){
+        addTitleComboBox(newTitle);
     }
 
     @Override
-    public void updateInfosEdited(String title){
+    public void updateInfosEdited(String oldTitle, String newTitle){
         try {
-            // do load because I don't know the previous title
-            loadTitleComboBox();
+            int index = titleComboBox.getItems().indexOf(oldTitle);
+            titleComboBox.getItems().set(index, newTitle);
 
-            if(!title.equals(titleTextField.getText())) return;
+            if(!oldTitle.equals(originalAccountTitle)) return;
 
-            AccountDTO account = accountService.getAccount(title);
+            AccountDTO account = accountService.getAccount(newTitle);
 
+            originalAccountTitle = newTitle;
             titleTextField.setText(account.title());
             descriptionTextArea.setText(account.description());
             passwordField.setText(account.password());
@@ -114,15 +115,15 @@ public abstract class AccountSearchFormController extends AccountMinimalFormCont
     }
 
     @Override
-    public void updateInfosDeleted(String title){
-        removeTitleComboBox(title);
+    public void updateInfosDeleted(String oldTitle, String newTitle){
+        removeTitleComboBox(oldTitle);
 
-        if(!title.equals(titleTextField.getText())) return;
+        if(!oldTitle.equals(originalAccountTitle)) return;
 
         clear();
 
         showInfo("O conteúdo mostrado estava desatualizado",
-                "A conta " + title + " não existe mais");
+                "A conta " + oldTitle + " não existe mais");
     }
 
     public void showAccount(String title){

@@ -1,6 +1,5 @@
 package com.gabfmm.gerenciador_de_senhas.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gabfmm.gerenciador_de_senhas.auth.AuthSession;
@@ -93,7 +92,7 @@ public class AccountService extends BaseService{
 
         HttpStatusCode statusCode = HttpStatusCode.from(response.statusCode());
         if(statusCode == HttpStatusCode.CREATED) {
-            accountTabPaneController.updateTabs(accountDTO.title(), UpdateType.CREATED);
+            accountTabPaneController.updateTabs(accountDTO.title(), accountDTO.title(), UpdateType.CREATED);
             return;
         }
 
@@ -111,7 +110,7 @@ public class AccountService extends BaseService{
 
         HttpStatusCode statusCode = HttpStatusCode.from(response.statusCode());
         if(statusCode == HttpStatusCode.OK) {
-            accountTabPaneController.updateTabs(accountDTO.newTitle(), UpdateType.EDITED);
+            accountTabPaneController.updateTabs(accountDTO.originalTitle(), accountDTO.newTitle(), UpdateType.EDITED);
             return mapper.readValue(response.body(), AccountUpdateInfoDTO.class);
         }
 
@@ -126,7 +125,7 @@ public class AccountService extends BaseService{
 
         HttpStatusCode status = HttpStatusCode.from(response.statusCode());
         if(status == HttpStatusCode.NO_CONTENT){
-            accountTabPaneController.updateTabs(deleteAccountDTO.title(), UpdateType.DELETED);
+            accountTabPaneController.updateTabs(deleteAccountDTO.title(), deleteAccountDTO.title(), UpdateType.DELETED);
             return;
         }
 

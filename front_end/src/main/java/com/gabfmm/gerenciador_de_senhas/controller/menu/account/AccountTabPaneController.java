@@ -141,11 +141,11 @@ public class AccountTabPaneController extends BaseController {
     *
     * "title" refers to the modified account
     * */
-    public void updateTabs(String title, UpdateType type){
+    public void updateTabs(String oldTitle, String newTitle, UpdateType type){
         displayAccountController.clear();
 
         for(AccountMinimalFormController tab : accountMinimalFormControllers)
-            tab.updateInfos(title, type);
+            tab.updateInfos(oldTitle, newTitle, type);
     }
 
     public void selectEditTab(String accountTitle){
@@ -158,6 +158,14 @@ public class AccountTabPaneController extends BaseController {
         deleteAccountController.showAccount(accountTitle);
 
         selectTabIfExists(DELETE_TAB_NAME);
+    }
+
+    public void renameTab(String oldName, String newName){
+        tabPane.getTabs()
+                .stream()
+                .filter(tab -> tab.getText().equals(oldName))
+                .findFirst()
+                .ifPresent(tab -> tab.setText(newName));
     }
 
     public void removeTab(String tabName){
